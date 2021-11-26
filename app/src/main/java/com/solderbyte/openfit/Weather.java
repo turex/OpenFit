@@ -15,7 +15,7 @@ public class Weather {
     private static final String LOG_TAG = "OpenFit:Weather";
 
     private static String APIKEY = "APPID=00042ee1a3e6f5dbb2a3c63e4e8fb50a";
-    private static String APIURL = "http://api.openweathermap.org/data/2.5/weather";
+    private static String APIURL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static String QUERY = "?";
     private static String AMP = "&";
     private static String UNITS = "units=";
@@ -56,7 +56,7 @@ public class Weather {
 
     public static void getWeather(String query, final String location) {
         Log.d(LOG_TAG, "Getting weather info for: " + query + " - " + location);
-        http.get(APIURL + QUERY + query + AMP + UNITS + units + AMP + APIKEY, new AsyncResponse() {
+        http.get(APIURL + query + AMP + UNITS + units + AMP + APIKEY, new AsyncResponse() {
             @Override
             public void callback(JSONObject res) {
                 Log.d(LOG_TAG, "Weather callback");

@@ -308,9 +308,6 @@ public class OpenFitActivity extends Activity {
             // setup UI
             this.setupUIListeners();
 
-            // Show the changelog dialog
-            this.showChangelog();
-
             // check notification access
             this.checkNotificationAccess();
 
@@ -334,38 +331,6 @@ public class OpenFitActivity extends Activity {
             this.getActivity().registerReceiver(serviceNotificationReceiver, new IntentFilter(OpenFitIntent.INTENT_SERVICE_NOTIFICATION));
             this.getActivity().registerReceiver(googleFitReceiver, new IntentFilter(OpenFitIntent.INTENT_GOOGLE_FIT));
             this.getActivity().registerReceiver(billingReceiver, new IntentFilter(OpenFitIntent.INTENT_BILLING));
-        }
-
-        private void showChangelog(){
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-
-
-            // Check if the changelog has to be skipped (ie "Don't show again" has been checked)
-            boolean skipChangelog = sharedPref.getBoolean(PREFERENCE_SKIP_CHANGELOG_KEY, false);
-
-            // Get versionCode numbers of the app (current and last)
-            int lastVersion = sharedPref.getInt(PREFERENCE_LAST_VERSION_KEY, 0);
-            int thisVersion = BuildConfig.VERSION_CODE;
-
-            // Reinit skipChangelog if the app has been updated since last start (or first start)
-            if(thisVersion != lastVersion){
-                SharedPreferences.Editor sharedPrefEditor = sharedPref.edit();
-
-                // Reinitialize the skipChangelog preference
-                skipChangelog = false;
-                sharedPrefEditor.putBoolean(PREFERENCE_SKIP_CHANGELOG_KEY, false);
-
-                // Set last version
-                sharedPrefEditor.putInt(PREFERENCE_LAST_VERSION_KEY, thisVersion);
-
-                sharedPrefEditor.apply();
-            }
-
-            if(!skipChangelog) {
-                // load news
-                DialogNews d = new DialogNews();
-                d.show(getFragmentManager(), getString(R.string.dialog_title_news));
-            }
         }
 
         private void checkNotificationAccess() {
